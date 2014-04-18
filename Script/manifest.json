@@ -1,0 +1,24 @@
+{
+	"manifest_version": 2,
+	"name": "PkaJigsaw",
+	"version": "0.0.8",
+	"description": "Pka Jigsaw system",
+	"permissions": [
+    	"tabs","<all_urls>"
+    ],
+  	"browser_action": {
+		"default_icon": "icon.gif",
+		"default_popup": "popup.html",
+		"default_title": "PKA TOOLS"
+  },
+  "content_scripts": [
+        {
+        "matches": [
+            "http://pegasus.astroempires.com/*",
+            "https://pegasus.astroempires.com/*"
+            ],
+        "js": ["jquery.js","content.js"],
+        "run_at": "document_end"
+        }
+    ]
+}
