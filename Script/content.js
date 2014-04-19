@@ -138,7 +138,10 @@ function invidscan(){
 	lengthST = (scantargets.length)-1;
 	console.log('lengthST: '+lengthST);
 	i=0;
-	loadworld(i,lengthST);
+	setTimeout(function(){
+				loadworld(i,lengthST);
+			}, 1200);
+	
 }
 
 //load astro system
