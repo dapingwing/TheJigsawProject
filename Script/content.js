@@ -184,7 +184,7 @@ function scouty(num,maxi,b,lengthST){
 					$.ajax({
 						 async: false,
 						 type: "POST",
-						 url: domain+"/dev/recievers/scout_mysql.php",
+						 url: domain+"/recievers/scout_mysql.php",
 						 dataType: 'html',
 						 data: data,
 						 success: function(){
@@ -309,7 +309,7 @@ function detailscout(start,maxi){
 					$.ajax({
 						 async: false,
 						 type: "POST",
-						 url: domain+"/dev/recievers/scout_detail_mysql.php",
+						 url: domain+"/recievers/scout_detail_mysql.php",
 						 dataType: 'html',
 						 data: data,
 						 success: function(){
@@ -428,7 +428,7 @@ function getplayer_data(ps_counter, ps_user_length){
 	$.ajax({
 		async: false,
 		type: "POST",
-		url: domain+"/dev/recievers/scout_users_mysql.php",
+		url: domain+"/recievers/scout_users_mysql.php",
 		dataType: 'html',
 		data: ps_data,
 		success: function(){
@@ -685,7 +685,7 @@ $(document).on('click','#techfetch', function(){
 	$.ajax({
 		async: false,
 		type: "POST",
-		url: domain+"/dev/recievers/scout_tech_mysql.php",
+		url: domain+"/recievers/scout_tech_mysql.php",
 		dataType: 'html',
 		data: tech_data,
 		success: function(){
@@ -930,7 +930,7 @@ function tg_part2(){
 	$.ajax({
 		async: false,
 		type: "POST",
-		url: domain+"/dev/recievers/scout_tech_mysql.php",
+		url: domain+"/recievers/scout_tech_mysql.php",
 		dataType: 'html',
 		data: tech_data,
 		success: function(){
@@ -1042,7 +1042,7 @@ function relay_part_2(r_defences,r_userlink){
 	$.ajax({
 		async: false,
 		type: "POST",
-		url: domain+"/dev/recievers/relay_battlecalc.php",
+		url: domain+"/recievers/relay_battlecalc.php",
 		dataType: 'html',
 		data: relay_data,
 		success: function(){
