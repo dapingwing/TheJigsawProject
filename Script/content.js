@@ -184,7 +184,7 @@ function scouty(num,maxi,b,lengthST){
 					$.ajax({
 						 async: false,
 						 type: "POST",
-						 url: domain+"/recievers/scout_mysql.php",
+						 url: domain+"/recievers/scout_map_mysql.php",
 						 dataType: 'html',
 						 data: data,
 						 success: function(){
