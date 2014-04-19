@@ -152,7 +152,9 @@ function loadworld(b,lengthST){
 		//START MAPPING	
 			var listing = $("#datawhore #map-system_content > div").length;
 			console.log(listing);
-			scouty(1,listing,b,lengthST);
+			setTimeout(function(){
+				scouty(1,listing,b,lengthST);
+			}, 1200);
 		});
 	}
 	
@@ -242,7 +244,9 @@ function loadbase(start,maxi){
 		$( "#datawhore" ).load( linky, function() {
 		console.log('[1/2]Scanning ['+start+'/'+maxi+'] '+detailtargets[start]);
 		$("#pka-scout #progress").text('['+check_count_rival+'/'+check_count+']Scanning ['+start+'/'+maxi+'] Detailscout | '+detailtargets[start]);
-			detailscout(start,maxi);
+			setTimeout(function(){
+				detailscout(start,maxi);
+			}, 1200);
 		});
 }
 function detailscout(start,maxi){
@@ -381,7 +385,9 @@ function loadplayer(ps_counter, ps_user_length){
 	$("#datawhore").empty();
 	$( "#datawhore" ).load( ps_link, function() {
 		$("#pka-scout #progress").text('['+check_count_rival+'/'+check_count+']Scanning['+ps_counter+'/'+ps_user_length+'] Playerscout | Id = '+userlist[ps_counter]);
-		getplayer_data(ps_counter, ps_user_length);
+		setTimeout(function(){
+				getplayer_data(ps_counter, ps_user_length);
+			}, 1200);
 	});
 }
 /*###################################
