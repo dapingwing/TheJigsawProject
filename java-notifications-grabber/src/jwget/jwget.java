@@ -19,6 +19,9 @@ import org.jsoup.select.*;
 
 public class jwget {
 
+	public static ArrayList<Notification> gnotifs;
+
+	//You can comment out main for when intergrating into android app, it is merely for demo purposes
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		 //tests
@@ -27,13 +30,32 @@ public class jwget {
 		String email = sc.nextLine();
 		System.out.println("Enter password: ");
 		String password = sc.nextLine();
+		
+		//login and get client object
 		HttpClientUtil client = login(email, password);
+		
+		//get current list of notifications
 		ArrayList<Notification> notifs = getNotifications(client, "1691");
 		
-		for (Notification notif : notifs)
+		//check return list of notifications against current known list, to know when a new notification arrives
+		for (Notification notif : notifs) {
+			if (!lIdScan(notif)) {
+				//signal user in some way of new notification
+				gnotifs.add(notif);
+			}
 			System.out.println(notif.toString());
+		}
 		
 		client.close();
+	}
+	
+	//simple linear scan to find if notification is new
+	private static boolean lIdScan(Notification notif) {
+		for (int i=0; i<gnotifs.size(); i++) {
+			if (gnotifs.get(i).id.equals(notif.id)) 
+				return true;
+		}
+		return false;
 	}
 	
 	public static HttpClientUtil login(String email, String password) {
