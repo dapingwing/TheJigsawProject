@@ -1,0 +1,45 @@
+<style>
+#tabs{
+	display:none;
+	height:100%;
+	background-color:transparent;
+	border:none;
+	background-image:none;
+	color:#FFFF;
+}
+#db-iframe{
+	width:100%;
+	height:100%;
+}
+.tab{
+	height:calc(100% - 50px);
+}
+iframe{
+	height:calc(100% - 50px);
+}
+#tabs-1{
+	background-color:transparent;
+}
+</style>
+<input type="button" id="tactical" value="Initiate Tactical View"/>
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Game</a></li>
+    <li><a href="#tabs-2">IRC</a></li>
+    <li><a href="#tabs-3">Database</a></li>
+  </ul>
+  <div id="tabs-1" class="tab">
+    
+  </div>
+  <div id="tabs-2" class="tab">
+        <iframe width="100%" scrolling="no" src="https://kiwiirc.com/client"></iframe>
+      </div>
+  <div id="tabs-3" class="tab">
+    	
+  </div>
+</div>
+<!-- DO NOT TOUCH ANYTHING BELOW THIS !-->
+<input type="hidden" id="urlwhore" name="urlwhore" value="">
+<div id="datawhore">
+</div>
+
