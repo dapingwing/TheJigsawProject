@@ -18,7 +18,7 @@
             "https://pegasus.astroempires.com/*"
             ],
 		"css": ["jquery-ui-1.10.4.css"],
-        "js": ["jquery.js","jquery-ui-1.10.4.js","prefixfree-1.0.7.js","aescripts/js_bbcode_extras_v1.1.js","aescripts/js_move_v1.4.js","functions.js","content.js"],
+        "js": ["jquery.js","jquery-ui-1.10.4.js","prefixfree-1.0.7.js","aescripts/js_bbcode_extras_v1.1.js","aescripts/js_move_v1.4.js","aescripts/js_timers_v1.11.js","functions.js","content.js"],
         "run_at": "document_end"
         }
     ],

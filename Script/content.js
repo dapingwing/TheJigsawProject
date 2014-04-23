@@ -22,7 +22,7 @@ $(document).on('click', '#tactical', function() {
 	$('#tabs').show();
 	$('#tabs').tabs();
 	$('#tactical').hide();
-	$('#tabs-1 #right').load("http://pegasus.astroempires.com/base.aspx #background-content");
+	$('#tabs-1 #right').load("http://pegasus.astroempires.com/base.aspx #background-inner");
 	$('#urlwhore').val("http://pegasus.astroempires.com/base.aspx");
 	initatedPieces();
 });
@@ -38,7 +38,7 @@ $(document).on("click", "#tabs-1 #right a", function(event){
 	if( $(this).attr('id') != 'move_fleet_form' ){
     event.preventDefault();
 	$('#urlwhore').val($(this).attr('href'));
-	$('#tabs-1  #right').load($(this).attr('href')+' #background-content', function(){
+	$('#tabs-1  #right').load($(this).attr('href')+' #background-inner', function(){
 		if($('#urlwhore').val().indexOf("board.aspx") >= 0){
 			$('#body').focus( function() { 
 				$('.new-post_tools').show();
