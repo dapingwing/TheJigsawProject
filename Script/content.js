@@ -48,6 +48,14 @@ $(document).on("click", "#tabs-1 #right a", function(event){
 				bbode_smilies_load();
 			});
 		}
+		if($('#urlwhore').val().indexOf("&view=move") >= 0){
+			$('#tabs-1 #right td a').each(function(){
+				var oldlink = $(this).attr('href');
+				var newlink = oldlink.replace("javascript:", "");
+				$(this).attr('href','');
+				$(this).attr('onclick',newlink);
+			});
+		}
 	});
 	}
 });
