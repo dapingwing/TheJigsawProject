@@ -20,7 +20,96 @@ iframe{
 #tabs-1{
 	background-color:transparent;
 }
+#left{
+	width:25%;
+	height:100%;
+	float:left;
+}
+#right{
+	width:75%;
+	height:100%;
+	float:left;
+}
+/*custom font for text*/
+@import url(http://fonts.googleapis.com/css?family=Nunito);
+/*CSS file for fontawesome - an iconfont we will be using. This CSS file imported contains the font-face declaration. More info: http://fortawesome.github.io/Font-Awesome/ */
+@import url(http://thecodeplayer.com/uploads/fonts/fontawesome/css/font-awesome.min.css);
+
+/*Basic reset*/
+* {margin: 0; padding: 0;}
+#accordian {
+	background: #004050;
+	width: 250px;
+	margin: 100px auto 0 auto;
+	color: white;
+	/*Some cool shadow and glow effect*/
+	box-shadow: 
+		0 5px 15px 1px rgba(0, 0, 0, 0.6), 
+		0 0 200px 1px rgba(255, 255, 255, 0.5);
+}
+/*heading styles*/
+#accordian h3 {
+	font-size: 12px;
+	line-height: 34px;
+	padding: 0 10px;
+	cursor: pointer;
+	/*fallback for browsers not supporting gradients*/
+	background: #003040; 
+	background: linear-gradient(#003040, #002535);
+}
+/*heading hover effect*/
+#accordian h3:hover {
+	text-shadow: 0 0 1px rgba(255, 255, 255, 0.7);
+}
+/*iconfont styles*/
+#accordian h3 span {
+	font-size: 16px;
+	margin-right: 10px;
+}
+/*list items*/
+#accordian li {
+	list-style-type: none;
+}
+/*links*/
+#accordian ul ul li a {
+	color: white;
+	text-decoration: none;
+	font-size: 11px;
+	line-height: 27px;
+	display: block;
+	padding: 0 15px;
+	/*transition for smooth hover animation*/
+	transition: all 0.15s;
+}
+/*hover effect on links*/
+#accordian ul ul li a:hover {
+	background: #003545;
+	border-left: 5px solid lightgreen;
+}
+/*Lets hide the non active LIs by default*/
+#accordian ul ul {
+	display: none;
+}
+#accordian li.active ul {
+	display: block;
+}
+
+
 </style>
+<script>
+/*jQuery time*/
+$(document).ready(function(){
+	$("#accordian h3").click(function(){
+		//slide up all the link lists
+		$("#accordian ul ul").slideUp();
+		//slide down the link list below the h3 clicked - only if its closed
+		if(!$(this).next().is(":visible"))
+		{
+			$(this).next().slideDown();
+		}
+	})
+});
+</script>
 <input type="button" id="tactical" value="Initiate Tactical View"/>
 <div id="tabs">
   <ul>
@@ -29,7 +118,58 @@ iframe{
     <li><a href="#tabs-3">Database</a></li>
   </ul>
   <div id="tabs-1" class="tab">
-    
+    <div id="left">
+        <div id="accordian">
+            <ul>
+                <li class="active">
+                    <h3><span></span>Tools</h3>
+                    <ul id="pka-tools">
+
+                    </ul>
+                </li>
+                <!-- we will keep this LI open by default -->
+                <li>
+                    <h3><span></span>Scouts</h3>
+                    <ul id="pka-scouts">
+                        <li><a href="#">Example</a></li>
+                        <li><a href="#">Example</a></li>
+                        <li><a href="#">Example</a></li>
+                        <li><a href="#">Example</a></li>
+                        <li><a href="#">Example</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <h3><span ></span>Fleet Control</h3>
+                    <ul id="pka-fleetcontrol">
+                        <li><a href="#">Example</a></li>
+                        <li><a href="#">Example</a></li>
+                        <li><a href="#">Example</a></li>
+
+                    </ul>
+                </li>
+                <li>
+                    <h3><span ></span>Map Views</h3>
+                    <ul id="pka-view">
+                        <li><a href="#">Example</a></li>
+                        <li><a href="#">Example</a></li>
+                        <li><a href="#">Example</a></li>
+                        <li><a href="#">Example</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <h3><span ></span>War Controller</h3>
+                    <ul id="pka-war">
+                        <li><a href="#">Example</a></li>
+                        <li><a href="#">Example</a></li>
+                        <li><a href="#">Example</a></li>
+                        <li><a href="#">Example</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="right">
+    </div>
   </div>
   <div id="tabs-2" class="tab">
         <iframe width="100%" scrolling="no" src="https://kiwiirc.com/client"></iframe>
@@ -37,9 +177,11 @@ iframe{
   <div id="tabs-3" class="tab">
     	<iframe width="100%" scrolling="no" src="http://pka.comuf.com/search_tech.php"></iframe>
   </div>
+  <div id="dialog" title="Info">
+  </div>
 </div>
 <!-- DO NOT TOUCH ANYTHING BELOW THIS !-->
 <input type="hidden" id="urlwhore" name="urlwhore" value="">
-<div id="datawhore">
+<div id="datawhore" style="display:none;">
 </div>
 

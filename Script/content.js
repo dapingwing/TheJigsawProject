@@ -9,7 +9,6 @@ $('#top-header .box_row .box_ctr #top-header_menu .mns-anchor-special .mns_box .
 //build the system!
 $(document).on('click', '#jigsaw', function() {
 	$('body').empty();
-	//$('head').append(' <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/start/jquery-ui.css" type="text/css" rel="Stylesheet" /> ');
 	$('head').append(' <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script> ');
 	$('head').append(' <script type="text/javascript" src="http://cdn.astroempires.com/javascript/js_move_v1.4.js"></script>');
 	$('body').load(chrome.extension.getURL("Interfaces/core.html"), function() {});
@@ -23,7 +22,7 @@ $(document).on('click', '#tactical', function() {
 	$('#tabs').show();
 	$('#tabs').tabs();
 	$('#tactical').hide();
-	$('#tabs-1').load("http://pegasus.astroempires.com/base.aspx #background-content");
+	$('#tabs-1 #right').load("http://pegasus.astroempires.com/base.aspx #background-content");
 	$('#urlwhore').val("http://pegasus.astroempires.com/base.aspx");
 	initatedPieces();
 });
@@ -35,11 +34,11 @@ $(document).on('click', '#tactical', function() {
 //////////////////////////////
 //Get all A clicks! 
 //+ Patch for bb code
-$(document).on("click", "#tabs-1 a", function(event){
+$(document).on("click", "#tabs-1 #right a", function(event){
 	if( $(this).attr('id') != 'move_fleet_form' ){
     event.preventDefault();
 	$('#urlwhore').val($(this).attr('href'));
-	$('#tabs-1').load($(this).attr('href')+' #background-content', function(){
+	$('#tabs-1  #right').load($(this).attr('href')+' #background-content', function(){
 		if($('#urlwhore').val().indexOf("board.aspx") >= 0){
 			$('#body').focus( function() { 
 				$('.new-post_tools').show();
@@ -62,7 +61,7 @@ $(document).on('click', '#tabs-1 [name=submit]', function(e) {
 	console.log('data='+serialdata);
 	console.log('action='+action);
 	$.post(action, serialdata, function( data ) {
-  		$( "#tabs-1" ).html( data );
+  		$( "#tabs-1  #right" ).html( data );
 	});
 	e.preventDefault();
 });
