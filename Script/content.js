@@ -74,14 +74,18 @@ $(document).on('click', '#tabs-1 [name=submit]', function(e) {
 	});
 	e.preventDefault();
 });
-$(document).on('click', '#tabs-1 #move_fleet_form a', function(e) {
-	if($(this).text()=='Max'){
-	}
-	if($(this).text()=='Hangar'){
-	}
+$(document).on('click', '#tabs-1 #move_fleet_form .input-button', function(e) {
+	var form = $(this).parents('form:first');
+	var serialdata = form.serialize()+'&submit='+$(this).val();
+	var action = form.attr('action');
+	
+	console.log('data='+serialdata);
+	console.log('action='+action);
+	$.post(action, serialdata, function( data ) {
+  		$( "#tabs-1  #right" ).html( data );
+	});
 	e.preventDefault();
-});
-
+})
 //////////////////////////////
 //		PIECES SYSTEM		//
 //////////////////////////////
