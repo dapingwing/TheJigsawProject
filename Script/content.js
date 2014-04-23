@@ -51,14 +51,15 @@ $(document).on("click", "#tabs-1 #right a", function(event){
 		if($('#urlwhore').val().indexOf("&view=move") >= 0){
 			$('#tabs-1 #right td a').each(function(){
 				var oldlink = $(this).attr('href');
-				var newlink = oldlink.replace("javascript:", "");
-				$(this).attr('href','');
+				var newlink = oldlink.replace("javascript:", "")+'; return false;';
+				$(this).attr('href','javascript:void(0)');
 				$(this).attr('onclick',newlink);
 			});
 		}
 	});
 	}
 });
+
 //patching posting
 //+ Patch for bb code
 $(document).on('click', '#tabs-1 [name=submit]', function(e) {
