@@ -1,29 +1,37 @@
 //TheJigsaw Loading system
 console.log('[TheJigsaw][CORE]Initiated');
 
-//Modify the menu
+//Blank out some variables
+user_id ='';
+current_location = '';
+
+
+//////////////////////////////
+//		AE MENU MOD			//
+//////////////////////////////
 topmenu = $('#top-header .box_row .box_ctr #top-header_menu .mns-anchor-special .mns_box .mns_row').html();
 newmenu = '<div class="mn_item"><a class="btn-normal" id="jigsaw" href="#"><div class="btn_lft"></div><div class="btn_ctr"><div>Jigsaw</div></div><div class="btn_rht"></div></a></div><div class="mn_separator"><div></div></div>'+topmenu;
 $('#top-header .box_row .box_ctr #top-header_menu .mns-anchor-special .mns_box .mns_row').html(newmenu);
 
-//build the system!
+//////////////////////////////////////
+//		Jigsaw initiator			//
+//////////////////////////////////////
 $(document).on('click', '#jigsaw', function() {
 	$('body').empty();
 	$('head').append(' <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script> ');
 	$('head').append(' <script type="text/javascript" src="http://cdn.astroempires.com/javascript/js_move_v1.4.js"></script>');
-	$('body').load(chrome.extension.getURL("Interfaces/core.html"), function() {});
-	$.getScript('http://cdn.astroempires.com/javascript/js_bbcode_v1.2.js');
-	$.getScript('<script type="text/javascript" src="http://cdn.astroempires.com/javascript/js_move_v1.4.js"></script>');
-	
-	
+	$('body').load(chrome.extension.getURL("Interfaces/core.html"));
+	console.log('[TheJigsaw][CORE]System Built');
 });
 //Load the tactical Interface
 $(document).on('click', '#tactical', function() {
 	$('#tabs').show();
+	$('#topbar').show()
 	$('#tabs').tabs();
 	$('#tactical').hide();
 	$('#tabs-1 #right').load("http://pegasus.astroempires.com/base.aspx #background-inner");
 	$('#urlwhore').val("http://pegasus.astroempires.com/base.aspx");
+	//Start pieces system
 	initatedPieces();
 });
 
@@ -35,28 +43,50 @@ $(document).on('click', '#tactical', function() {
 //Get all A clicks! 
 //+ Patch for bb code
 $(document).on("click", "#tabs-1 #right a", function(event){
-	if( $(this).attr('id') != 'move_fleet_form' ){
-    event.preventDefault();
-	$('#urlwhore').val($(this).attr('href'));
-	$('#tabs-1  #right').load($(this).attr('href')+' #background-inner', function(){
-		if($('#urlwhore').val().indexOf("board.aspx") >= 0){
-			$('#body').focus( function() { 
-				$('.new-post_tools').show();
-				image_spacer = 'http://cdn.astroempires.com/images/spacer.gif';
-				dir_smilies = 'http://cdn.astroempires.com/images/smilies';
-				bbode_colors_load();
-				bbode_smilies_load();
-			});
-		}
-		if($('#urlwhore').val().indexOf("&view=move") >= 0){
-			$('#tabs-1 #right td a').each(function(){
-				var oldlink = $(this).attr('href');
-				var newlink = oldlink.replace("javascript:", "")+'; return false;';
-				$(this).attr('href','javascript:void(0)');
-				$(this).attr('onclick',newlink);
-			});
-		}
-	});
+	//stop link redirection
+	event.preventDefault();
+
+	
+	//The massive capture 
+	if( $(this).attr('id') != 'move_fleet_form' && $(this).attr('id') != 'link_fleet_move_here' ){
+		
+		$('#urlwhore').val($(this).attr('href'));
+		$('#tabs-1  #right').load($(this).attr('href')+' #background-inner', function(){
+			//CATCH 1 : If on the boards
+			if($('#urlwhore').val().indexOf("board.aspx") >= 0){
+				$('#body').focus( function() { 
+					$('.new-post_tools').show();
+					image_spacer = 'http://cdn.astroempires.com/images/spacer.gif';
+					dir_smilies = 'http://cdn.astroempires.com/images/smilies';
+					bbode_colors_load();
+					bbode_smilies_load();
+				});
+			}
+			//CATCH 2: If moving fleet
+			if($('#urlwhore').val().indexOf("&view=move") >= 0){
+				$('#tabs-1 #right td a').each(function(){
+					var oldlink = $(this).attr('href');
+					var newlink = oldlink.replace("javascript:", "")+'; return false;';
+					$(this).attr('href','javascript:void(0)');
+					$(this).attr('onclick',newlink);
+				});
+			}
+			if($('#urlwhore').val().indexOf("map.aspx") >= 0){
+				var vgo = new jsGraphics('map-galaxy_canvas');
+				vgo.paint();
+			}
+			
+		});
+	}else if($(this).attr('id') == 'link_fleet_move_here' ){
+	//PATCH 1: move fleet here function
+		//Variables
+		current_location = $('#urlwhore').val().replace('base.aspx?base=','').replace('map.aspx?loc=','');
+		user_id = $('#tabs-1 #account .btn_ctr div').text();
+		
+		//Run AE script
+		load_fleet_move_to_destination("fleet.aspx?method=ajax&view=move_to_destination&version=1&player="+user_id+"&destination="+current_location);
+		$("#link_fleet_move_here").hide();
+		console.log('[TheJigsaw][CORE]Change Caught');
 	}
 });
 
@@ -105,6 +135,7 @@ function initatedPieces(){
 	for (i = 0, l = pieces_Active.length-1; i < l; i++) {
 		$.getScript(chrome.extension.getURL("Pieces/"+pieces_Active[i]+"/piece.js"));
 	}
+	console.log('[TheJigsaw][CORE]All Pieces initiated');
 }
 //////////////////////////////
 //		UPDATE SYSTEM		//
