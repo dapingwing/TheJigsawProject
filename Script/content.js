@@ -80,11 +80,16 @@ $(document).on("click", "#tabs-1 #right a", function(event){
 	}else if($(this).attr('id') == 'link_fleet_move_here' ){
 	//PATCH 1: move fleet here function
 		//Variables
-		current_location = $('#urlwhore').val().replace('base.aspx?base=','').replace('map.aspx?loc=','');
+		current_location = $('#urlwhore').val();
+		if(current_location.indexOf("map.aspx?loc=") >= 0){
+			current_location_fix = current_location.replace('base.aspx?base=','').replace('map.aspx?loc=','')
+		}else{
+			current_location_fix = $('[title=Location]').text()
+		}
 		user_id = $('#tabs-1 #account .btn_ctr div').text();
 		
 		//Run AE script
-		load_fleet_move_to_destination("fleet.aspx?method=ajax&view=move_to_destination&version=1&player="+user_id+"&destination="+current_location);
+		load_fleet_move_to_destination("fleet.aspx?method=ajax&view=move_to_destination&version=1&player="+user_id+"&destination="+current_location_fix);
 		$("#link_fleet_move_here").hide();
 		console.log('[TheJigsaw][CORE]Change Caught');
 	}
