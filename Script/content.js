@@ -31,6 +31,7 @@ $(document).on('click', '#tactical', function() {
 	$('#tactical').hide();
 	$('#tabs-1 #right').load("http://pegasus.astroempires.com/base.aspx #background-inner");
 	$('#urlwhore').val("http://pegasus.astroempires.com/base.aspx");
+	$('#advertising').hide();
 	//Start pieces system
 	initatedPieces();
 });
@@ -45,6 +46,9 @@ $(document).on('click', '#tactical', function() {
 $(document).on("click", "#tabs-1 #right a", function(event){
 	//stop link redirection
 	event.preventDefault();
+	
+	//hide ads
+	$('#advertising').hide()
 
 	
 	//The massive capture 
@@ -150,4 +154,3 @@ setInterval(updateInfo,30000);
 function updateInfo(){
 	$('#status').load("http://pegasus.astroempires.com/base.aspx #main-header-infobox_content");
 }
-$('#advertising').hide();
