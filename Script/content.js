@@ -150,3 +150,4 @@ setInterval(updateInfo,30000);
 function updateInfo(){
 	$('#status').load("http://pegasus.astroempires.com/base.aspx #main-header-infobox_content");
 }
+$('#advertising').hide();
