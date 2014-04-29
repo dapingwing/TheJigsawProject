@@ -17,6 +17,7 @@ public class JigsawIRCBot {
 	private static LinkedList<Category> catlist;
 	private static LinkedList<User> userlist;
 	private static String jigver;
+	private static final String jigsawname = "Jigsaw-Bot";
 	
 	private static IRCConnection con;		//IRC Connection
 	private static Channel chan;			//IRC Channel
@@ -45,7 +46,7 @@ public class JigsawIRCBot {
 		readUserList();
 		
 		//establish IRC connection
-		con = new IRCConnection("irc.freenode.net", "Jigsaw-Bot", "JBot");
+		con = new IRCConnection("irc.freenode.net", jigsawname, "JBot");
 		con.connect();
 		
 		//connect to channel
@@ -75,8 +76,10 @@ public class JigsawIRCBot {
             	jigver();
             } else if (line.contains("!changever")) {
             	changever(line);
+            } else if (line.contains("!help global")) {
+            	help (true, line);
             } else if (line.contains("!help")) {
-            	help();
+            	help(false, line);
             } else if (line.contains("!idealist")) {
             	idealist();
             } else if (line.contains("!buglist")) {
@@ -135,7 +138,9 @@ public class JigsawIRCBot {
 		writer.write(jigver);
 		chan.sendMessage("Jigsaw Version Changed to: " + jigver);
 		for (int k=0; k<userlist.size(); k++) {
-			if (userlist.get(k).online)
+			if ((userlist.get(k).getName().equals("MadDutchman") || 
+					userlist.get(k).getName().equals("dapingwing")) &&
+					userlist.get(k).online)
 				userlist.get(k).setKnownVersion(jigver);
 		}
 		writer.close();
@@ -162,9 +167,13 @@ public class JigsawIRCBot {
 	
 	//When a user joins, check to see if they are already on the userlist, and add them if not. 
 	private static void parseJoin(String line) throws IOException {
-		String name;
-		int i = line.indexOf("!");
-		name = line.substring(1, i);
+		String name = getUserName(line);
+		if (!name.equals(jigsawname)) {
+			chan.sendMessage("Welcome " + name + " to the PKA's private IRC channel. For a list of currently supported Bot commands, type" +
+				" !help and I will send you a pm with the list.");
+			chan.sendMessage("To get the attention of anyone in a channel, simply say their name exactly and most clients will" +
+				" give an audible ping to them. ");
+		}
 		boolean hasuser = false;
 		for (int k=0; k<userlist.size(); k++) {
 			if (userlist.get(k).getName().equals(name)) {
@@ -410,21 +419,45 @@ public class JigsawIRCBot {
 	}
 	
 	//spams the command list
-	private static void help() throws IOException {
-		chan.sendMessage("Command List:");
-    	chan.sendMessage("!help : Prints this help list");
-    	chan.sendMessage("!ignore : ignores any other commands that may be on the line. Useful if all you want to do is talk about them");
-    	chan.sendMessage("!idea [category] \"name\" \"description\" || !idea index \"name\" \"description\" : Saves an idea with given category, name and description");
-    	chan.sendMessage("!bug [category] \"name\" \"description\" || !idea index \"name\" \"description\" : Saves a bug report with the given category, name and description");
-    	chan.sendMessage("!addcat \"name\" \"description\" : Adds a new category");
-    	chan.sendMessage("!ridea \"name\" || !ridea index : Removes an idea with the given name or integer index");
-    	chan.sendMessage("!rbug \"name\" || !ridea index : Removes a bug report with the given name or index");
-    	chan.sendMessage("!rcat \"name\" || !rcat index : Removes a category at specified name or index, and all dependant ideas/bugs");
-    	chan.sendMessage("!idealist : Prints out the current list of ideas");
-    	chan.sendMessage("!buglist : Prints out the current list of bugs");
-    	chan.sendMessage("!catlist : Prints out the current list of idea/bug categories");
-    	chan.sendMessage("!jigver : The current jigsaw version");
-    	chan.sendMessage("!changever \"version\" : Change the jigsaw version");
+	private static void help(boolean global, String line) throws IOException {
+		if (global) {
+			chan.sendMessage("Command List:");
+			chan.sendMessage("!help : Prints this help list in pm");
+			chan.sendMessage("!help global : Prints this help message in main channel");
+			chan.sendMessage("!ignore : ignores any other commands that may be on the line. Useful if all you want to do is talk about them");
+			chan.sendMessage("!idea [category] \"name\" \"description\" || !idea index \"name\" \"description\" : Saves an idea with given category, name and description");
+			chan.sendMessage("!bug [category] \"name\" \"description\" || !idea index \"name\" \"description\" : Saves a bug report with the given category, name and description");
+			chan.sendMessage("!addcat \"name\" \"description\" : Adds a new category");
+			chan.sendMessage("!ridea \"name\" || !ridea index : Removes an idea with the given name or integer index");
+			chan.sendMessage("!rbug \"name\" || !ridea index : Removes a bug report with the given name or index");
+			chan.sendMessage("!rcat \"name\" || !rcat index : Removes a category at specified name or index, and all dependant ideas/bugs");
+			chan.sendMessage("!idealist : Prints out the current list of ideas");
+			chan.sendMessage("!buglist : Prints out the current list of bugs");
+			chan.sendMessage("!catlist : Prints out the current list of idea/bug categories");
+			chan.sendMessage("!jigver : The current jigsaw version");
+			chan.sendMessage("!changever \"version\" : Change the jigsaw version");
+		} else {
+			Channel pm = con.getChannel(getUserName(line));
+			pm.sendMessage("Command List:");
+			pm.sendMessage("!help : Prints this help list");
+			pm.sendMessage("!help global : Prints this help message in main channel");
+			pm.sendMessage("!ignore : ignores any other commands that may be on the line. Useful if all you want to do is talk about them");
+			pm.sendMessage("!idea [category] \"name\" \"description\" || !idea index \"name\" \"description\" : Saves an idea with given category, name and description");
+			pm.sendMessage("!bug [category] \"name\" \"description\" || !idea index \"name\" \"description\" : Saves a bug report with the given category, name and description");
+			pm.sendMessage("!addcat \"name\" \"description\" : Adds a new category");
+			pm.sendMessage("!ridea \"name\" || !ridea index : Removes an idea with the given name or integer index");
+			pm.sendMessage("!rbug \"name\" || !ridea index : Removes a bug report with the given name or index");
+			pm.sendMessage("!rcat \"name\" || !rcat index : Removes a category at specified name or index, and all dependant ideas/bugs");
+			pm.sendMessage("!idealist : Prints out the current list of ideas");
+			pm.sendMessage("!buglist : Prints out the current list of bugs");
+			pm.sendMessage("!catlist : Prints out the current list of idea/bug categories");
+			pm.sendMessage("!jigver : The current jigsaw version");
+			pm.sendMessage("!changever \"version\" : Change the jigsaw version");
+		}
+	}
+	
+	private static String getUserName(String line) {
+		return line.substring(1, line.indexOf("!"));
 	}
 	
 	//parse category
