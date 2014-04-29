@@ -17,4 +17,8 @@ public class Channel {
 		con.write("PRIVMSG " + channel + " :" + message + "\r\n");
 		con.flush();
 	}
+	
+	public void getOp(String nick) throws IOException {
+		con.write("MODE " + nick + " :+o\r\n");
+	}
 }	

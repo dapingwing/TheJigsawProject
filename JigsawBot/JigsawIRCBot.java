@@ -51,6 +51,7 @@ public class JigsawIRCBot {
 		
 		//connect to channel
 		chan = con.getChannel("#PKAAE");
+		chan.getOp(jigsawname);
 		String line;
 		String rline;
 		
@@ -128,6 +129,13 @@ public class JigsawIRCBot {
 	
 	//Change the jigsaw version, updating everyone currently online
 	private static void changever(String line) throws IOException {
+		String name = getUserName(line);
+		if (!name.equals("MadDutchman") && !name.equals("dapingwing") &&
+				!name.equals("@MadDutchman") && !name.equals("@dapingwing")) {
+			chan.sendMessage("You don't have permission to do that");
+			return;
+		}
+			
 		int i = line.indexOf("!changever");
 		i = line.indexOf("\"", i);
 		int j = line.indexOf("\"", i+1);
@@ -138,9 +146,7 @@ public class JigsawIRCBot {
 		writer.write(jigver);
 		chan.sendMessage("Jigsaw Version Changed to: " + jigver);
 		for (int k=0; k<userlist.size(); k++) {
-			if ((userlist.get(k).getName().equals("MadDutchman") || 
-					userlist.get(k).getName().equals("dapingwing")) &&
-					userlist.get(k).online)
+			if (userlist.get(k).online)
 				userlist.get(k).setKnownVersion(jigver);
 		}
 		writer.close();
