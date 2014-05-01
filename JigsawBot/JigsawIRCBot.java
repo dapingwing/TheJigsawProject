@@ -61,7 +61,7 @@ public class JigsawIRCBot {
 		while ((rline = con.readLine()) != null) {
 			line = rline;
 			try {
-            if (rline.toUpperCase( ).startsWith("PING ")) {
+            if (rline.toUpperCase().startsWith("PING ")) {
                 con.write("PONG " + line.substring(5) + "\r\n");
                 con.flush();
             } else if (line.contains("353") && !line.contains("PRIVMSG")) {
@@ -101,11 +101,16 @@ public class JigsawIRCBot {
             	catlist();
             } else if (line.contains("!rcat")) {
             	rcat(line);
+            } else if (line.contains("!P")) {
+            	coordLink(line);
             }
-            else {
-                // Print the raw line received by the bot.
-                System.out.println(rline);
-            }
+            FileWriter logfile = new FileWriter("log.txt", true);
+            BufferedWriter log = new BufferedWriter(logfile);
+            // Print the raw line received by the bot.
+            System.out.println(rline);
+            log.write(rline + "\r\n");
+            log.close();
+            
 			} catch (StringIndexOutOfBoundsException e) {
 				chan.sendMessage("You made a syntax error, pay more attention!");
 			} catch (IOException ex) {
@@ -114,6 +119,78 @@ public class JigsawIRCBot {
 			}
         }
 		
+	}
+	
+	private static void coordLink(String line) throws IOException {
+		int i = line.indexOf("!P");
+		int j = line.indexOf(" ", i);
+		String coord;
+		if (j != -1) 
+			coord = line.substring(i+1, j);
+		else
+			coord = line.substring(i+1);
+		try {
+			int gal;
+			int reg;
+			int sys;
+			int astro;
+			
+			j = coord.indexOf(":");
+			if (j != -1) {
+				gal = Integer.parseInt(coord.substring(1, j));
+				if (gal > 59 || gal < 0)
+					throw new NumberFormatException();
+			} else {
+				gal = Integer.parseInt(coord.substring(1));
+				if (gal > 59 || gal < 0) {
+					throw new NumberFormatException();
+				} else {
+					chan.sendMessage("http://pegasus.astroempires.com/map.aspx?gal=" + coord);
+					return;
+				}
+			}
+			i = j+1;
+			j = coord.indexOf(":", i);
+			if (j != -1) {
+				reg = Integer.parseInt(coord.substring(i, j));
+				if (reg > 99 || reg < 0)
+					throw new NumberFormatException();
+			} else {
+				reg = Integer.parseInt(coord.substring(i));
+				if (reg > 99 || reg < 0) {
+					throw new NumberFormatException();
+				} else {
+					chan.sendMessage("http://pegasus.astroempires.com/map.aspx?loc=" + coord);
+					return;
+				}
+			}
+			i = j+1;
+			j = coord.indexOf(":", i);
+			if (j != -1) {
+				sys = Integer.parseInt(coord.substring(i, j));
+				if (sys > 99 || sys < 0)
+					throw new NumberFormatException();
+			} else {
+				sys = Integer.parseInt(coord.substring(i));
+				if (sys > 99 || sys < 0) {
+					throw new NumberFormatException();
+				} else {
+					chan.sendMessage("http://pegasus.astroempires.com/map.aspx?loc=" + coord);
+					return;
+				}
+			}
+			i = j+1;
+			astro = Integer.parseInt(coord.substring(i));
+			if (astro > 53 || astro < 10) 
+				throw new NumberFormatException();
+			else
+				chan.sendMessage("http://pegasus.astroempires.com/map.aspx?loc=" + coord);
+		} catch (StringIndexOutOfBoundsException e) {
+			chan.sendMessage("This does not match any coord patterns");
+			System.out.println(e.getCause());
+		} catch (NumberFormatException fe) {
+			chan.sendMessage("Coords need valid numbers. Got something that didn't match");
+		}
 	}
 	
 	//Notfiy all users currently online of a jigsaw change
@@ -442,11 +519,13 @@ public class JigsawIRCBot {
 			chan.sendMessage("!catlist : Prints out the current list of idea/bug categories");
 			chan.sendMessage("!jigver : The current jigsaw version");
 			chan.sendMessage("!changever \"version\" : Change the jigsaw version");
+			chan.sendMessage("!Pxx:xx:xx:xx (or other coord combo, should work for any valid) : prints a link to the coords posted"); 
 		} else {
 			Channel pm = con.getChannel(getUserName(line));
 			pm.sendMessage("Command List:");
 			pm.sendMessage("!help : Prints this help list");
 			pm.sendMessage("!help global : Prints this help message in main channel");
+			pm.sendMessage("!Pxx:xx:xx:xx (or other coord combo, should work for any valid) : prints a link to the coords posted"); 
 			pm.sendMessage("!ignore : ignores any other commands that may be on the line. Useful if all you want to do is talk about them");
 			pm.sendMessage("!idea [category] \"name\" \"description\" || !idea index \"name\" \"description\" : Saves an idea with given category, name and description");
 			pm.sendMessage("!bug [category] \"name\" \"description\" || !idea index \"name\" \"description\" : Saves a bug report with the given category, name and description");
@@ -459,6 +538,7 @@ public class JigsawIRCBot {
 			pm.sendMessage("!catlist : Prints out the current list of idea/bug categories");
 			pm.sendMessage("!jigver : The current jigsaw version");
 			pm.sendMessage("!changever \"version\" : Change the jigsaw version");
+			
 		}
 	}
 	
