@@ -66,11 +66,13 @@ public class JigsawIRCBot {
                 con.flush();
             } else if (line.contains("353") && !line.contains("PRIVMSG")) {
             	parseUsersOnLogin(line);
-            } else if (line.contains("JOIN")) {
+            } else if (line.contains("JOIN") && !line.contains("PRIVMSG")) {
             	parseJoin(line);
             	notifyUsers();
-            } else if (line.contains("QUIT")) {
+            } else if (line.contains("QUIT") && !line.contains("PRIVMSG")) {
             	parseQuit(line);
+            } else if (line.contains("NICK") && !line.contains("PRIVMSG")) {
+            	parseNick(line);
             } else if (line.contains("!ignore")) {
             	continue;
             } else if (line.contains("!jigver")) {
@@ -114,7 +116,7 @@ public class JigsawIRCBot {
 			} catch (StringIndexOutOfBoundsException e) {
 				chan.sendMessage("You made a syntax error, pay more attention!");
 			} catch (IOException ex) {
-				chan.sendMessage("An IO error occured");
+				chan.sendMessage("An IO error occured. This will likely cause data persistence problems");
 				System.err.println("An IO error occured: " + ex.getStackTrace());
 			}
         }
@@ -187,7 +189,6 @@ public class JigsawIRCBot {
 				chan.sendMessage("http://pegasus.astroempires.com/map.aspx?loc=" + coord);
 		} catch (StringIndexOutOfBoundsException e) {
 			chan.sendMessage("This does not match any coord patterns");
-			System.out.println(e.getCause());
 		} catch (NumberFormatException fe) {
 			chan.sendMessage("Coords need valid numbers. Got something that didn't match");
 		}
@@ -248,6 +249,28 @@ public class JigsawIRCBot {
 		}
 	}
 	
+	private static void parseNick(String line) throws IOException {
+		String name = getUserName(line);
+		String newname;
+		int i = line.indexOf("NICK");
+		i = line.indexOf(":", i);
+		newname = line.substring(i+1);
+		boolean hasuser = false;
+		for (int k=0; k<userlist.size(); k++) {
+			if (userlist.get(k).getName().equals(newname)) {
+				hasuser = true;
+				userlist.get(k).online = true;
+			}	
+			if (userlist.get(k).getName().equals(name))
+				userlist.get(k).online = false;
+		}
+		if (!hasuser) {
+			userlist.add(0, new User(newname, "0"));
+			userlist.get(0).online = true;
+		}
+		writeUserList();
+	}
+	
 	//When a user joins, check to see if they are already on the userlist, and add them if not. 
 	private static void parseJoin(String line) throws IOException {
 		String name = getUserName(line);
@@ -271,7 +294,7 @@ public class JigsawIRCBot {
 		writeUserList();
 	}
 	
-	//When bot logs on, get the list of currently online users
+	//When bot logs on, get the list of currently online users.  
 	private static void parseUsersOnLogin(String line) throws IOException {
 		String name;
 		int i = line.indexOf(":", 1);
