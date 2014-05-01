@@ -527,40 +527,66 @@ public class JigsawIRCBot {
 	//spams the command list
 	private static void help(boolean global, String line) throws IOException {
 		if (global) {
-			chan.sendMessage("Command List:");
-			chan.sendMessage("!help : Prints this help list in pm");
-			chan.sendMessage("!help global : Prints this help message in main channel");
-			chan.sendMessage("!ignore : ignores any other commands that may be on the line. Useful if all you want to do is talk about them");
-			chan.sendMessage("!idea [category] \"name\" \"description\" || !idea index \"name\" \"description\" : Saves an idea with given category, name and description");
-			chan.sendMessage("!bug [category] \"name\" \"description\" || !idea index \"name\" \"description\" : Saves a bug report with the given category, name and description");
-			chan.sendMessage("!addcat \"name\" \"description\" : Adds a new category");
-			chan.sendMessage("!ridea \"name\" || !ridea index : Removes an idea with the given name or integer index");
-			chan.sendMessage("!rbug \"name\" || !ridea index : Removes a bug report with the given name or index");
-			chan.sendMessage("!rcat \"name\" || !rcat index : Removes a category at specified name or index, and all dependant ideas/bugs");
-			chan.sendMessage("!idealist : Prints out the current list of ideas");
-			chan.sendMessage("!buglist : Prints out the current list of bugs");
-			chan.sendMessage("!catlist : Prints out the current list of idea/bug categories");
-			chan.sendMessage("!jigver : The current jigsaw version");
-			chan.sendMessage("!changever \"version\" : Change the jigsaw version");
-			chan.sendMessage("!Pxx:xx:xx:xx (or other coord combo, should work for any valid) : prints a link to the coords posted"); 
+			try {
+				chan.sendMessage("Command List:");
+				chan.sendMessage("!help                                  : Prints this help list in pm");
+				chan.sendMessage("!help global                           : Prints this help message in main channel");
+				chan.sendMessage("!ignore                                : ignores any other commands that may be on the line. Useful if all you want to do is talk about them");
+				Thread.sleep(1000);
+				chan.sendMessage("!idea [category] \"name\" \"description\"  : Saves an idea with given category, name and description");
+				chan.sendMessage("!idea index \"name\" \"description\"       : Same as above, but uses the category number (indexrather than name (see with !catlist)"); 
+				chan.sendMessage("!bug [category] \"name\" \"description\"   : Saves a bug report with the given category, name and description");
+				chan.sendMessage("!bug index \"name\" \"description\"        : Same as above, but uses the category number (indexrather than name (see with !catlist)");
+				chan.sendMessage("!addcat \"name\" \"description\"           : Adds a new category with provided name and description");
+				Thread.sleep(1000);
+				chan.sendMessage("!ridea \"name\"                          : Removes an idea with the given name");
+				chan.sendMessage("!ridea index                           : Removes an idea with given index (see index with !idealist)");
+				chan.sendMessage("!rbug \"name\"                           : Removes a bug report with the given name");
+				chan.sendMessage("!rbug index                            : Removes a bug report at the given index (view indexes with !buglist)");
+				chan.sendMessage("!rcat \"name\"                           : Removes a category at specified name and all dependant ideas/bugs");
+				chan.sendMessage("!rcat index                            : Removes a category at specified index (view with !catlist) and all dependant ideas/bugs");
+				Thread.sleep(1000);
+				chan.sendMessage("!idealist                              : Prints out the current list of ideas");
+				chan.sendMessage("!buglist                               : Prints out the current list of bugs");
+				chan.sendMessage("!catlist                               : Prints out the current list of idea/bug categories");
+				Thread.sleep(1000);
+				chan.sendMessage("!jigver                                : The current jigsaw version");
+				chan.sendMessage("!changever \"version\"                   : Change the jigsaw version");
+				chan.sendMessage("!Pxx:xx:xx:xx (or other coord combo)  : prints a link to the coords posted"); 
+			} catch (InterruptedException ie) {
+				System.out.println("The sleep was interrupted");
+			}
 		} else {
 			Channel pm = con.getChannel(getUserName(line));
-			pm.sendMessage("Command List:");
-			pm.sendMessage("!help : Prints this help list");
-			pm.sendMessage("!help global : Prints this help message in main channel");
-			pm.sendMessage("!Pxx:xx:xx:xx (or other coord combo, should work for any valid) : prints a link to the coords posted"); 
-			pm.sendMessage("!ignore : ignores any other commands that may be on the line. Useful if all you want to do is talk about them");
-			pm.sendMessage("!idea [category] \"name\" \"description\" || !idea index \"name\" \"description\" : Saves an idea with given category, name and description");
-			pm.sendMessage("!bug [category] \"name\" \"description\" || !idea index \"name\" \"description\" : Saves a bug report with the given category, name and description");
-			pm.sendMessage("!addcat \"name\" \"description\" : Adds a new category");
-			pm.sendMessage("!ridea \"name\" || !ridea index : Removes an idea with the given name or integer index");
-			pm.sendMessage("!rbug \"name\" || !ridea index : Removes a bug report with the given name or index");
-			pm.sendMessage("!rcat \"name\" || !rcat index : Removes a category at specified name or index, and all dependant ideas/bugs");
-			pm.sendMessage("!idealist : Prints out the current list of ideas");
-			pm.sendMessage("!buglist : Prints out the current list of bugs");
-			pm.sendMessage("!catlist : Prints out the current list of idea/bug categories");
-			pm.sendMessage("!jigver : The current jigsaw version");
-			pm.sendMessage("!changever \"version\" : Change the jigsaw version");
+			try {
+				pm.sendMessage("Command List:");
+				pm.sendMessage("!help                                  : Prints this help list in pm");
+				pm.sendMessage("!help global                           : Prints this help message in main channel");
+				pm.sendMessage("!ignore                                : ignores any other commands that may be on the line. Useful if all you want to do is talk about them");
+				Thread.sleep(1000);
+				pm.sendMessage("!idea [category] \"name\" \"description\"  : Saves an idea with given category, name and description");
+				pm.sendMessage("!idea index \"name\" \"description\"       : Same as above, but uses the category number (indexrather than name (see with !catlist)"); 
+				pm.sendMessage("!bug [category] \"name\" \"description\"   : Saves a bug report with the given category, name and description");
+				pm.sendMessage("!bug index \"name\" \"description\"        : Same as above, but uses the category number (indexrather than name (see with !catlist)");
+				pm.sendMessage("!addcat \"name\" \"description\"           : Adds a new category with provided name and description");
+				Thread.sleep(1000);
+				pm.sendMessage("!ridea \"name\"                          : Removes an idea with the given name");
+				pm.sendMessage("!ridea index                           : Removes an idea with given index (see index with !idealist)");
+				pm.sendMessage("!rbug \"name\"                           : Removes a bug report with the given name");
+				pm.sendMessage("!rbug index                            : Removes a bug report at the given index (view indexes with !buglist)");
+				pm.sendMessage("!rcat \"name\"                           : Removes a category at specified name and all dependant ideas/bugs");
+				pm.sendMessage("!rcat index                            : Removes a category at specified index (view with !catlist) and all dependant ideas/bugs");
+				Thread.sleep(1000);
+				pm.sendMessage("!idealist                              : Prints out the current list of ideas");
+				pm.sendMessage("!buglist                               : Prints out the current list of bugs");
+				pm.sendMessage("!catlist                               : Prints out the current list of idea/bug categories");
+				Thread.sleep(1000);
+				pm.sendMessage("!jigver                                : The current jigsaw version");
+				pm.sendMessage("!changever \"version\"                   : Change the jigsaw version");
+				pm.sendMessage("!Pxx:xx:xx:xx (or other coord combo)  : prints a link to the coords posted"); 
+			} catch (InterruptedException ie) {
+				System.out.println("The sleep was interrupted");
+			}
 			
 		}
 	}

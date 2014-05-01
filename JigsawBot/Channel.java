@@ -16,6 +16,11 @@ public class Channel {
 	public void sendMessage(String message) throws IOException {
 		con.write("PRIVMSG " + channel + " :" + message + "\r\n");
 		con.flush();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException ie) {
+			System.out.println("The sleep was interrupted");
+		}
 	}
 	
 	public void getOp(String nick) throws IOException {
