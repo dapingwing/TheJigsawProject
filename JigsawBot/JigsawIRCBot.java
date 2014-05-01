@@ -136,14 +136,24 @@ public class JigsawIRCBot {
 			int reg;
 			int sys;
 			int astro;
+			String sgal;
+			String sreg;
+			String ssys;
+			String sastro;
 			
 			j = coord.indexOf(":");
 			if (j != -1) {
-				gal = Integer.parseInt(coord.substring(1, j));
+				sgal = coord.substring(1, j);
+				if (sgal.length() != 2)
+					throw new NumberFormatException();
+				gal = Integer.parseInt(sgal);
 				if (gal > 59 || gal < 0)
 					throw new NumberFormatException();
 			} else {
-				gal = Integer.parseInt(coord.substring(1));
+				sgal = coord.substring(1);
+				if (sgal.length() != 2)
+					throw new NumberFormatException();
+				gal = Integer.parseInt(sgal);
 				if (gal > 59 || gal < 0) {
 					throw new NumberFormatException();
 				} else {
@@ -154,11 +164,17 @@ public class JigsawIRCBot {
 			i = j+1;
 			j = coord.indexOf(":", i);
 			if (j != -1) {
-				reg = Integer.parseInt(coord.substring(i, j));
+				sreg = coord.substring(i, j);
+				if (sreg.length() != 2) 
+					throw new NumberFormatException();
+				reg = Integer.parseInt(sreg);
 				if (reg > 99 || reg < 0)
 					throw new NumberFormatException();
 			} else {
-				reg = Integer.parseInt(coord.substring(i));
+				sreg = coord.substring(i);
+				if (sreg.length() != 2) 
+					throw new NumberFormatException();
+				reg = Integer.parseInt(sreg);
 				if (reg > 99 || reg < 0) {
 					throw new NumberFormatException();
 				} else {
@@ -169,11 +185,17 @@ public class JigsawIRCBot {
 			i = j+1;
 			j = coord.indexOf(":", i);
 			if (j != -1) {
-				sys = Integer.parseInt(coord.substring(i, j));
+				ssys = coord.substring(i, j);
+				if (ssys.length() != 2)
+					throw new NumberFormatException();
+				sys = Integer.parseInt(ssys);
 				if (sys > 99 || sys < 0)
 					throw new NumberFormatException();
 			} else {
-				sys = Integer.parseInt(coord.substring(i));
+				ssys = coord.substring(i);
+				if (ssys.length() != 2)
+					throw new NumberFormatException();
+				sys = Integer.parseInt(ssys);
 				if (sys > 99 || sys < 0) {
 					throw new NumberFormatException();
 				} else {
@@ -182,7 +204,10 @@ public class JigsawIRCBot {
 				}
 			}
 			i = j+1;
-			astro = Integer.parseInt(coord.substring(i));
+			sastro = coord.substring(i);
+			if (sastro.length() != 2)
+				throw new NumberFormatException();
+			astro = Integer.parseInt(sastro);
 			if (astro > 53 || astro < 10) 
 				throw new NumberFormatException();
 			else
@@ -534,9 +559,9 @@ public class JigsawIRCBot {
 				chan.sendMessage("!ignore                                : ignores any other commands that may be on the line. Useful if all you want to do is talk about them");
 				Thread.sleep(1000);
 				chan.sendMessage("!idea [category] \"name\" \"description\"  : Saves an idea with given category, name and description");
-				chan.sendMessage("!idea index \"name\" \"description\"       : Same as above, but uses the category number (indexrather than name (see with !catlist)"); 
+				chan.sendMessage("!idea index \"name\" \"description\"       : Same as above, but uses the category number (index) rather than name (see with !catlist)"); 
 				chan.sendMessage("!bug [category] \"name\" \"description\"   : Saves a bug report with the given category, name and description");
-				chan.sendMessage("!bug index \"name\" \"description\"        : Same as above, but uses the category number (indexrather than name (see with !catlist)");
+				chan.sendMessage("!bug index \"name\" \"description\"        : Same as above, but uses the category number (index) rather than name (see with !catlist)");
 				chan.sendMessage("!addcat \"name\" \"description\"           : Adds a new category with provided name and description");
 				Thread.sleep(1000);
 				chan.sendMessage("!ridea \"name\"                          : Removes an idea with the given name");
