@@ -67,6 +67,12 @@ public class Ship {
 			strongvs.add(new Ship("Ion Frigate", "IF"));
 			strongvs.add(new Ship("Cruiser", "CR"));
 			strongvs.add(new Ship("Heavy Cruiser", "HC"));
+		} else if (this.id.equals("IF")) {
+			strongvs.add(new Ship("Battleship", "BS"));
+			strongvs.add(new Ship("Dreadnought", "DN"));
+			strongvs.add(new Ship("Titan", "TI"));
+			strongvs.add(new Ship("Leviathan", "LV"));
+			strongvs.add(new Ship("Death Star", "DS"));
 		} else if (this.id.equals("CR")) {
 			strongvs.add(new Ship("Ion Frigate", "IF"));
 			strongvs.add(new Ship("Heavy Cruiser", "HC"));

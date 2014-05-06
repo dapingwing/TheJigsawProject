@@ -181,9 +181,9 @@ public class JigsawIRCBot {
 		ArrayList<Ship> maybes = ship.getMaybes();
 		ArrayList<Ship> weaknesses = ship.getWeaknesses();
 		
-		String allstrengths = "Ship strong versus: ";
-		String allmaybes = "Ship may be strong versus: ";
-		String allweak = "Ship is weak against: ";
+		String allstrengths = ship.getName() + " is strong versus: ";
+		String allmaybes = ship.getName() + " may be strong versus: ";
+		String allweak = ship.getName() + " is weak against: ";
 		
 		for (int k=0; k<strengths.size(); k++) 
 			allstrengths = allstrengths + strengths.get(k).getName() + " | ";
@@ -199,7 +199,7 @@ public class JigsawIRCBot {
 			allweak = allweak + weaknesses.get(k).getName() + " | ";
 		
 		chan.sendMessage(allweak.substring(0, allweak.length()-3));
-		chan.sendMessage("Reminder: This are general rules, and have exceptions. This is not a substitute for a battle calculator, just a quick reference tool");
+		chan.sendMessage("Reminder: These are general rules, and have exceptions. This is not a substitute for a battle calculator, just a quick reference tool");
 		chan.sendMessage("If you have any questions regarding fleets, send a message to MadDutchman");
 	}
 	
