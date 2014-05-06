@@ -21,6 +21,28 @@ public class JigsawIRCBot {
 	
 	private static IRCConnection con;		//IRC Connection
 	private static Channel chan;			//IRC Channel
+	
+	private static ArrayList<Ship> ships;
+	private static String[][] lookup = {
+			{"FT", "Fighter"}, 
+			{"BO", "Bomber"},
+			{"HB", "Bomber"},
+			{"IB", "Ion Bomber"},
+			{"CV", "Corvette"},
+			{"DE", "Destroyer"},
+			{"FR", "Frigate"},
+			{"IF", "Ion Frigate"},
+			{"CR", "Cruiser"},
+			{"HC", "Heavy Cruiser"},
+			{"BS", "Battleship"},
+			{"DN", "Dreadnought"},
+			{"TI", "Titan"},
+			{"LV", "Leviathan"},
+			{"DS", "Death Star"},
+			{"RC", "Recycler"},
+			{"SS", "Scout Ship"},
+			{"OS", "Outpost Ship"}
+			};
 
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		idealist = new LinkedList<Idea>();
@@ -103,6 +125,8 @@ public class JigsawIRCBot {
             	catlist();
             } else if (line.contains("!rcat")) {
             	rcat(line);
+            } else if (line.contains("!shipstrengths")) {
+            	shipStrengths(line);
             } else if (line.contains("!P")) {
             	coordLink(line);
             }
@@ -123,6 +147,63 @@ public class JigsawIRCBot {
 		
 	}
 	
+	private static void shipStrengths(String line) throws IOException, StringIndexOutOfBoundsException {
+		int i = line.indexOf("!shipstrengths");
+		i = line.indexOf("\"", i);
+		if (i == -1)
+			throw new StringIndexOutOfBoundsException();
+		int j = line.indexOf("\"", i+1);
+		String lu;
+		Ship ship = new Ship("Nothing", "NO");
+		if (j == -1) 
+			lu = line.substring(i+1);
+		else
+			lu = line.substring(i+1, j);
+		boolean found = false;
+		for (int k=0; k<lookup.length; k++) {
+			if (lookup[k][0].equals(lu.toUpperCase())) {
+				ship = new Ship(lookup[k][1], lu.toUpperCase());
+				found = true;
+				break;
+			}
+			if (lookup[k][1].equals(lu)) {
+				ship = new Ship(lu, lookup[k][0]);
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			chan.sendMessage("No ship with that name or id");
+			return;
+		}
+		
+		ArrayList<Ship> strengths = ship.getStrengths();
+		ArrayList<Ship> maybes = ship.getMaybes();
+		ArrayList<Ship> weaknesses = ship.getWeaknesses();
+		
+		String allstrengths = "Ship strong versus: ";
+		String allmaybes = "Ship may be strong versus: ";
+		String allweak = "Ship is weak against: ";
+		
+		for (int k=0; k<strengths.size(); k++) 
+			allstrengths = allstrengths + strengths.get(k).getName() + " | ";
+		
+		chan.sendMessage(allstrengths.substring(0, allstrengths.length()-3));
+		
+		for (int k=0; k<maybes.size(); k++) 
+			allmaybes = allmaybes + maybes.get(k).getName() + " | ";
+		
+		chan.sendMessage(allmaybes.substring(0, allmaybes.length()-3));
+		
+		for (int k=0; k<weaknesses.size(); k++) 
+			allweak = allweak + weaknesses.get(k).getName() + " | ";
+		
+		chan.sendMessage(allweak.substring(0, allweak.length()-3));
+		chan.sendMessage("Reminder: This are general rules, and have exceptions. This is not a substitute for a battle calculator, just a quick reference tool");
+		chan.sendMessage("If you have any questions regarding fleets, send a message to MadDutchman");
+	}
+	
+	//Creates a link from posted AE coords
 	private static void coordLink(String line) throws IOException {
 		int i = line.indexOf("!P");
 		int j = line.indexOf(" ", i);
@@ -554,6 +635,7 @@ public class JigsawIRCBot {
 		if (global) {
 			try {
 				chan.sendMessage("Command List:");
+				chan.sendMessage("!shipstrengths \"name or id\"            : Prints a list of strengths and weaknesses of that ship");
 				chan.sendMessage("!help                                  : Prints this help list in pm");
 				chan.sendMessage("!help global                           : Prints this help message in main channel");
 				chan.sendMessage("!ignore                                : ignores any other commands that may be on the line. Useful if all you want to do is talk about them");
@@ -577,7 +659,8 @@ public class JigsawIRCBot {
 				Thread.sleep(1000);
 				chan.sendMessage("!jigver                                : The current jigsaw version");
 				chan.sendMessage("!changever \"version\"                   : Change the jigsaw version");
-				chan.sendMessage("!Pxx:xx:xx:xx (or other coord combo)  : prints a link to the coords posted"); 
+				chan.sendMessage("!Pxx:xx:xx:xx (or other coord combo)   : prints a link to the coords posted"); 
+				
 			} catch (InterruptedException ie) {
 				System.out.println("The sleep was interrupted");
 			}
@@ -585,6 +668,7 @@ public class JigsawIRCBot {
 			Channel pm = con.getChannel(getUserName(line));
 			try {
 				pm.sendMessage("Command List:");
+				pm.sendMessage("!shipstrengths \"name or id\"            : Prints a list of strengths and weaknesses of that ship");
 				pm.sendMessage("!help                                  : Prints this help list in pm");
 				pm.sendMessage("!help global                           : Prints this help message in main channel");
 				pm.sendMessage("!ignore                                : ignores any other commands that may be on the line. Useful if all you want to do is talk about them");
@@ -608,7 +692,8 @@ public class JigsawIRCBot {
 				Thread.sleep(1000);
 				pm.sendMessage("!jigver                                : The current jigsaw version");
 				pm.sendMessage("!changever \"version\"                   : Change the jigsaw version");
-				pm.sendMessage("!Pxx:xx:xx:xx (or other coord combo)  : prints a link to the coords posted"); 
+				pm.sendMessage("!Pxx:xx:xx:xx (or other coord combo)   : prints a link to the coords posted"); 
+				
 			} catch (InterruptedException ie) {
 				System.out.println("The sleep was interrupted");
 			}

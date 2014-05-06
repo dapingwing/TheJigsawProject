@@ -24,6 +24,6 @@ public class Channel {
 	}
 	
 	public void getOp(String nick) throws IOException {
-		con.write("MODE " + nick + " :+o\r\n");
+		con.write("MODE #PKAAE +o " + nick + "\r\n");
 	}
 }	
