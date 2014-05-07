@@ -23,10 +23,10 @@ public class JigsawIRCBot {
 	private static Channel chan;			//IRC Channel
 	
 	private static ArrayList<Ship> ships;
-	private static String[][] lookup = {
+	private static String[][] lookupname = {
 			{"FT", "Fighter"}, 
 			{"BO", "Bomber"},
-			{"HB", "Bomber"},
+			{"HB", "Heavy Bomber"},
 			{"IB", "Ion Bomber"},
 			{"CV", "Corvette"},
 			{"DE", "Destroyer"},
@@ -43,6 +43,26 @@ public class JigsawIRCBot {
 			{"SS", "Scout Ship"},
 			{"OS", "Outpost Ship"}
 			};
+	private static String[][] lookupid = {
+		{"FT", "fighter"}, 
+		{"BO", "bomber"},
+		{"HB", "heavy bomber"},
+		{"IB", "ion bomber"},
+		{"CV", "corvette"},
+		{"DE", "destroyer"},
+		{"FR", "frigate"},
+		{"IF", "ion frigate"},
+		{"CR", "cruiser"},
+		{"HC", "heavy cruiser"},
+		{"BS", "battleship"},
+		{"DN", "dreadnought"},
+		{"TI", "titan"},
+		{"LV", "leviathan"},
+		{"DS", "death star"},
+		{"RC", "recycler"},
+		{"SS", "scout ship"},
+		{"OS", "outpost ship"}
+		};
 
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		idealist = new LinkedList<Idea>();
@@ -86,7 +106,15 @@ public class JigsawIRCBot {
             if (rline.toUpperCase().startsWith("PING ")) {
                 con.write("PONG " + line.substring(5) + "\r\n");
                 con.flush();
-            } else if (line.contains("353") && !line.contains("PRIVMSG")) {
+            } else if (line.contains("353") && !line.contains("PRIVMSG") &&
+            		!line.contains("266") &&
+            		!line.contains("250") &&
+            		!line.contains("251") &&
+            		!line.contains("252") &&
+            		!line.contains("253") &&
+            		!line.contains("254") &&
+            		!line.contains("255") &&
+            		!line.contains("265")) {
             	parseUsersOnLogin(line);
             } else if (line.contains("JOIN") && !line.contains("PRIVMSG")) {
             	parseJoin(line);
@@ -155,19 +183,17 @@ public class JigsawIRCBot {
 		int j = line.indexOf("\"", i+1);
 		String lu;
 		Ship ship = new Ship("Nothing", "NO");
-		if (j == -1) 
-			lu = line.substring(i+1);
-		else
-			lu = line.substring(i+1, j);
+		
+		lu = line.substring(i+1, j);
 		boolean found = false;
-		for (int k=0; k<lookup.length; k++) {
-			if (lookup[k][0].equals(lu.toUpperCase())) {
-				ship = new Ship(lookup[k][1], lu.toUpperCase());
+		for (int k=0; k<lookupid.length; k++) {
+			if (lookupname[k][0].equals(lu.toUpperCase())) {
+				ship = new Ship(lookupname[k][1], lu.toUpperCase());
 				found = true;
 				break;
 			}
-			if (lookup[k][1].equals(lu)) {
-				ship = new Ship(lu, lookup[k][0]);
+			if (lookupid[k][1].equals(lu.toLowerCase())) {
+				ship = new Ship(lookupname[k][1], lookupid[k][0]);
 				found = true;
 				break;
 			}
