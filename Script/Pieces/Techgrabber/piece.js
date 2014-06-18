@@ -12,7 +12,7 @@ $(document).on('click','#pi-techfetch', function(){
 $('.battle-report_info').each(function(i){
 	userlist = [];
 	$(this).parent().parent().parent().parent().index();
-	console.log('clicked');
+	console.log('[TheJigsaw][PIECE][Techgrabber] STARTED');
 	tg_child = parseFloat(i);
 	tg_selector = 'form .board-listing tr:nth-child('+tg_child+')';
 	console.log(tg_selector);
