@@ -738,8 +738,10 @@ public class JigsawIRCBot {
 		int i = line.indexOf("\"", 0) + 1;
 		int j = line.indexOf("\"", i+1);
 		name = line.substring(i, j);
+		i = j+1;
+		j = i;
 		
-		i = line.indexOf("\"", j+1) + 1;
+		i = line.indexOf("\"", j+1);
 		j = line.indexOf("\"", i+1);
 		descrp = line.substring(i, j);
 		return new Category(name, descrp);
@@ -778,8 +780,9 @@ public class JigsawIRCBot {
 		int i = line.indexOf("\"", 0) + 1;
 		int j = line.indexOf("\"", i+1);
 		name = line.substring(i, j);
-		
-		i = line.indexOf("\"", j+1) + 1;
+		i = j+1;
+		j = i;
+		i = line.indexOf("\"", j+1);
 		j = line.indexOf("\"", i+1);
 		descrp = line.substring(i, j);
 		return new Idea(category, name, descrp);
@@ -818,8 +821,10 @@ public class JigsawIRCBot {
 		int i = line.indexOf("\"", 0) + 1;
 		int j = line.indexOf("\"", i+1);
 		name = line.substring(i, j);
+		i = j+1;
+		j = i;
 		
-		i = line.indexOf("\"", j+1) + 1;
+		i = line.indexOf("\"", j+1);
 		j = line.indexOf("\"", i+1);
 		descrp = line.substring(i, j);
 		return new Bug(category, name, descrp);
