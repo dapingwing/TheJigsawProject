@@ -2,13 +2,18 @@
 #Name :			TechGrabber			#
 #System :		PKA Jigsaw			#
 #Part :			Check tech levels	#
-#Step :			3					#
 #####################################*/
-$(document).on('click','#techfetch', function(){
+// Show initialisation code
+domain = 'http://119.82.251.50/pka/';
+console.log('[TheJigsaw][PIECE][Techgrabber] Loaded');
+//Listener + shower
+$('#left #pka-tools').append('<li><a href="#" id="pi-techfetch">Fetch Tech</a></li>');
+$(document).on('click','#pi-techfetch', function(){
+$('.battle-report_info').each(function(i){
 	userlist = [];
-	
+	$(this).parent().parent().parent().parent().index();
 	console.log('clicked');
-	tg_child = parseFloat($(this).attr('class'));
+	tg_child = parseFloat(i);
 	tg_selector = 'form .board-listing tr:nth-child('+tg_child+')';
 	console.log(tg_selector);
 	tg_table_selector = tg_selector + ' .battle-report_info tbody';
@@ -221,6 +226,7 @@ $(document).on('click','#techfetch', function(){
 		console.log('[TechGrabber]Reply:'+data);
 		tg_part2();
 	});
+});
 });
 function tg_part2(){
 /*##########DEFENDER#############*/

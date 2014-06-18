@@ -5,10 +5,7 @@
 //dT=Arm:1,Las:2,Mis:3,Pla:4,Sld:5,Ion:6,Pho:7,Dis:8
 //&dS=FT:1,BO:2,HB:3,IB:4,CV:5,RC:6,DE:7,FR:8,IF:9,SS:10,OS:11,CR:12,CA:13,HC:14,BS:15,FC:16,DN:17,TI:18,LE:19,DS:20,BA:1,LT:2,MT:3,PT:4,IT:5,OT:6,DT:7,FS:8,PS:9,PR:10
 //mysql
-$mysql_host = "mysql5.000webhost.com";
-$mysql_database = "a9901560_ae";
-$mysql_user = "a9901560_ae";
-$mysql_password = "kilbone229";
+require_once('./mysql_config.php');
 
 //connection
 // Create connection

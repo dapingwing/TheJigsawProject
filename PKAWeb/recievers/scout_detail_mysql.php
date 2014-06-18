@@ -1,9 +1,5 @@
 <?php
-//variables
-$mysql_host = "mysql5.000webhost.com";
-$mysql_database = "a9901560_ae";
-$mysql_user = "a9901560_ae";
-$mysql_password = "kilbone229";
+require_once('./../mysql_config.php');
 
 //connection
 // Create connection
@@ -42,7 +38,7 @@ if ($result=mysqli_query($con,$sql))
 		$updatesql = "UPDATE scout_detail SET eco = '".$eco."', fleet = '".$fleet."', link = '".$link."', name = '".$name."', defence = '".$defence."', galaxy = '".$galaxy."', region = '".$region."', blink = '".$blink."', jid = '".$jid."', jg = '".$jg."', cc = '".$cc."'  WHERE loc = '".$loc."'";
 		mysqli_query($con, $updatesql)or die(mysqli_error($con));
 	}else{
-		mysqli_query($con,"INSERT INTO scout_detail (loc, blink, eco, fleet, link, name, defence, galaxy, region, jg, cc jid) VALUES ('".$loc."', '".$blink."', '".$eco."', '".$fleet."', '".$link."', '".$name."', '".$defence."', '".$galaxy."', '".$region."', '".$jg."', '".$cc."', '".$jid."' )")or die(mysqli_error($con));
+		mysqli_query($con,"INSERT INTO scout_detail (loc, blink, eco, fleet, link, name, defence, galaxy, region, jg, cc, jid) VALUES ('".$loc."', '".$blink."', '".$eco."', '".$fleet."', '".$link."', '".$name."', '".$defence."', '".$galaxy."', '".$region."', '".$jg."', '".$cc."', '".$jid."' )")or die(mysqli_error($con));
 	}
   // Free result set
   mysqli_free_result($result);

@@ -1,4 +1,4 @@
-<style>
+  <style>
 #tabs{
 	display:none;
 	height:100%;
@@ -114,7 +114,8 @@ $(document).ready(function(){
 		{
 			$(this).next().slideDown();
 		}
-	})
+	});
+	$("#tabs").tabs();
 });
 </script>
 <input type="button" id="tactical" value="Initiate Tactical View"/>
@@ -131,6 +132,8 @@ $(document).ready(function(){
     <li><a href="#tabs-1">Game</a></li>
     <li><a href="#tabs-2">IRC</a></li>
     <li><a href="#tabs-3">Database</a></li>
+    <li><a href="#tabs-4">Update</a></li>
+    <li><a href="#tabs-5">BattleCalc</a></li>
   </ul>
   <div id="tabs-1" class="tab">
     <div id="left">
@@ -189,7 +192,13 @@ $(document).ready(function(){
         <iframe src="http://webchat.freenode.net?channels=%23pkaae&uio=OT10cnVlde" width="100%" height="100%"></iframe>
       </div>
   <div id="tabs-3" class="tab">
-    	<iframe width="100%" scrolling="no" src="http://pka.comuf.com/search_tech.php"></iframe>
+    	<iframe width="100%" scrolling="no" src="http://119.82.251.50/pka//search_tech.php"></iframe>
+  </div>
+  <div id="tabs-4" class="tab">
+    	<a href="#" id="run-update">Run the update script</a>
+  </div>
+  <div id="tabs-5" class="tab">
+    	<iframe height="700px" width="1200px" id="battlecalc_iframe" src="http://vig.vg/AE/aeBattleCalc.php"></iframe>
   </div>
   <div id="dialog" title="Info">
   </div>

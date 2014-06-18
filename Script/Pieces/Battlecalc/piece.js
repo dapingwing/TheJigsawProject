@@ -112,14 +112,14 @@ function relay_part_2(r_defences,r_userlink){
 	$.ajax({
 		async: false,
 		type: "POST",
-		url: "http://pka.comuf.com/relay_battlecalc.php",
+		url: "http://119.82.251.50/pka/relay_battlecalc.php",
 		dataType: 'html',
 		data: relay_data,
-		success: function(){
-			
+		success: function(data){
 		},
 		error: function(ts) { alert(ts.responseText) }
 	}).done(function(data){
-		 window.open(data, '_blank');
+		 $("#battlecalc_iframe").attr('src', data);
+		 console.log(data);
 	});
 }

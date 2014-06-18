@@ -5,11 +5,7 @@
 #Part :			Save data			#
 #Step :			4					#
 #####################################
-//variables
-$mysql_host = "mysql5.000webhost.com";
-$mysql_database = "a9901560_ae";
-$mysql_user = "a9901560_ae";
-$mysql_password = "kilbone229";
+require_once('./../mysql_config.php');
 
 //connection
 // Create connection

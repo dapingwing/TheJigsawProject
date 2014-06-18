@@ -29,11 +29,14 @@ $(document).on('click', '#tactical', function() {
 	$('#topbar').show()
 	$('#tabs').tabs();
 	$('#tactical').hide();
-	$('#tabs-1 #right').load("http://pegasus.astroempires.com/base.aspx #background-inner");
+	$.get("http://pegasus.astroempires.com/base.aspx").done(function(data){
+		$('#tabs-1 #right').html(data);
+	});
 	$('#urlwhore').val("http://pegasus.astroempires.com/base.aspx");
 	$('#advertising').hide();
 	//Start pieces system
 	initatedPieces();
+	console.log('[TheJigsaw][CORE]Loader finished');
 });
 
 
@@ -48,14 +51,15 @@ $(document).on("click", "#tabs-1 #right a", function(event){
 	event.preventDefault();
 	
 	//hide ads
-	$('#advertising').hide()
+	$('#advertising').empty()
 
 	
 	//The massive capture 
 	if( $(this).attr('id') != 'move_fleet_form' && $(this).attr('id') != 'link_fleet_move_here' ){
 		
 		$('#urlwhore').val($(this).attr('href'));
-		$('#tabs-1  #right').load($(this).attr('href')+' #background-inner', function(){
+		$.get($(this).attr('href'), function(data){
+			$('#tabs-1 #right').html(data);
 			//CATCH 1 : If on the boards
 			if($('#urlwhore').val().indexOf("board.aspx") >= 0){
 				$('#body').focus( function() { 
@@ -149,8 +153,11 @@ function initatedPieces(){
 //////////////////////////////
 //		UPDATE SYSTEM		//
 //////////////////////////////
-
-setInterval(updateInfo,30000);
-function updateInfo(){
-	$('#status').load("http://pegasus.astroempires.com/base.aspx #main-header-infobox_content");
-}
+$(document).on('click', '#tabs-4 #run-update', function(e) {
+	$.getScript(chrome.extension.getURL("./update.js"));
+})
+////////////////////////////////
+//setInterval(updateInfo,30000);
+//function updateInfo(){
+//	$('#status').load("http://pegasus.astroempires.com/base.aspx #main-header-infobox_content");
+//}
