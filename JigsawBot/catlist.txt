@@ -1,0 +1,2 @@
+!cat "BOT" "The bot category"
+!cat "Jigsaw" "The actual script that is loaded in AE"
